@@ -689,6 +689,8 @@ public class ColibriConferenceIQ
          * active. Set by the Jitsi Videobridge server, not its clients.
          */
         private int[] ssrcs = NO_SSRCS;
+        
+        private boolean generateUniqueSource = false;
 
         /** Initializes a new <tt>Channel</tt> instance. */
         public Channel()
@@ -835,6 +837,10 @@ public class ColibriConferenceIQ
             newSSRCs[ssrcs.length] = ssrc;
             ssrcs = newSSRCs;
             return true;
+        }
+        
+        public synchronized void setGenerateSource(boolean value) {
+            this.generateUniqueSource = value;
         }
 
         /**
@@ -1455,6 +1461,14 @@ public class ColibriConferenceIQ
                 = ((ssrcs == null) || (ssrcs.length == 0))
                     ? NO_SSRCS
                     : ssrcs.clone();
+        }
+
+        /**
+         * @return true if we should generate SSRC for this Channel 
+         */
+        public boolean generateSource()
+        {
+            return generateUniqueSource;
         }
     }
 
